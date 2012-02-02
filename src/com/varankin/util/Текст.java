@@ -74,49 +74,149 @@ public class Текст
         }
     };
 
+    //<editor-fold defaultstate="collapsed" desc="классы">
+    
     /**
      * Фабрика источников текста.
      */
     static public class КаталогКлассов
     {
         private final Map<Class,ResourceBundle> каталог
-            = Collections.synchronizedMap( new HashMap<Class,ResourceBundle>() );
-
-        @Deprecated
-        public Текст словарь( Class класс, Locale специфика )
-        {
-            return словарь( класс, специфика, специфика, специфика );
-        }
-
-        public Текст словарь( Class класс, Locale специфика, Locale спецификаЯзыка, Locale спецификаФормата )
+                = Collections.synchronizedMap( new HashMap<Class,ResourceBundle>() );
+        
+        /**
+         * Создает новый источник локализованных текстов для класса.
+         * Источник требует полный индекс текста.
+         *
+         * @param класс            референт.
+         * @param спецификаЯзыка   спецификация языка текстов.
+         * @param спецификаФормата спецификация форматов чисел, дат, валют и т.п.
+         * @return источник текстов.
+         *
+         * @exception NullPointerException если спецификаЯзыка - {@code null}.
+         * 
+         * @see Locale#getDefault()
+         * @see Locale#getDefault(java.util.Locale.Category)
+         */
+        public Текст словарь( Class класс, Locale спецификаЯзыка, Locale спецификаФормата )
         {
             ResourceBundle bundle = каталог.get( класс );
             if( bundle == null )
-                каталог.put( класс, bundle = getBundle( класс.getName(), специфика ) );
-            return new Текст( специфика, bundle, null );
+                каталог.put( класс, bundle = getBundle( класс.getName(), спецификаЯзыка ) );
+            return new Текст( спецификаФормата, bundle, null );
         }
-
+        
+        /**
+         * Создает новый источник локализованных текстов для класса.
+         * Источник требует полный индекс текста.
+         *
+         * @param класс     референт.
+         * @param специфика спецификация языка текстов и форматов чисел, дат, валют и т.п..
+         * @return источник текстов.
+         *
+         * @exception NullPointerException если специфика - {@code null}.
+         * 
+         * @see Locale#getDefault()
+         * @deprecated JDK7.
+         */
+        @Deprecated
+        public Текст словарь( Class класс, Locale специфика )
+        {
+            return словарь( класс, специфика, специфика );
+        }
     }
-
+    
     /**
      * Фабрика источников текста.
      */
     static public class КаталогПакетов
     {
         private final Map<Package,ResourceBundle> каталог
-            = Collections.synchronizedMap( new HashMap<Package,ResourceBundle>() );
-
-        public Текст словарь( Class класс, Locale специфика )
+                = Collections.synchronizedMap( new HashMap<Package,ResourceBundle>() );
+        
+        /**
+         * Создает новый источник локализованных текстов для класса.
+         * Источник требует частичный индекс текста. В качестве префикса
+         * источник использует {@linkplain Class#getSimpleName() краткое название класса}.
+         *
+         * @param класс            референт.
+         * @param спецификаЯзыка   спецификация языка текстов.
+         * @param спецификаФормата спецификация форматов чисел, дат, валют и т.п.
+         * @return источник текстов.
+         *
+         * @exception NullPointerException если спецификаЯзыка - {@code null}.
+         * 
+         * @see Locale#getDefault()
+         * @see Locale#getDefault(java.util.Locale.Category)
+         */
+        public Текст словарь( Class класс, Locale спецификаЯзыка, Locale спецификаФормата )
         {
-            return словарь( класс.getPackage(), префикс( класс ), специфика );
+            return словарь( класс.getPackage(), префикс( класс ), спецификаЯзыка, спецификаФормата );
         }
         
-        public Текст словарь( Package пакет, String префикс, Locale специфика )
+        /**
+         * Создает новый источник локализованных текстов для класса.
+         * Источник требует частичный индекс текста. В качестве префикса
+         * источник использует {@linkplain Class#getSimpleName() краткое название класса}.
+         *
+         * @param класс     референт.
+         * @param специфика спецификация языка текстов и форматов чисел, дат, валют и т.п..
+         * @return источник текстов.
+         *
+         * @exception NullPointerException если специфика - {@code null}.
+         * 
+         * @see Locale#getDefault()
+         * @deprecated JDK7.
+         */
+        @Deprecated
+        public Текст словарь( Class класс, Locale специфика )
+        {
+            return словарь( класс, специфика, специфика );
+        }
+        
+        /**
+         * Создает новый источник локализованных текстов для пакета.
+         * Источник требует частичный индекс текста. В качестве префикса
+         * источник использует заданное значение.
+         *
+         * @param пакет            референт.
+         * @param префикс          префикс ключей текстов.
+         * @param спецификаЯзыка   спецификация языка текстов.
+         * @param спецификаФормата спецификация форматов чисел, дат и т.п.
+         * @return источник текстов.
+         *
+         * @exception NullPointerException если спецификаЯзыка - {@code null}.
+         * 
+         * @see Locale#getDefault()
+         * @see Locale#getDefault(java.util.Locale.Category)
+         */
+        public Текст словарь( Package пакет, String префикс, Locale спецификаЯзыка, Locale спецификаФормата )
         {
             ResourceBundle bundle = каталог.get( пакет );
             if( bundle == null )
-                каталог.put( пакет, bundle = getBundle( пакет.getName() + '.' + FILE_BUNDLE, специфика ) );
-            return new Текст( специфика, bundle, префикс );
+                каталог.put( пакет, bundle = getBundle( пакет.getName() + '.' + FILE_BUNDLE, спецификаЯзыка ) );
+            return new Текст( спецификаФормата, bundle, префикс );
+        }
+        
+        /**
+         * Создает новый источник локализованных текстов для пакета.
+         * Источник требует частичный индекс текста. В качестве префикса
+         * источник использует заданное значение.
+         * 
+         * @param пакет            референт.
+         * @param префикс          префикс ключей текстов.
+         * @param специфика спецификация языка текстов и форматов чисел, дат, валют и т.п..
+         * @return источник текстов.
+         *
+         * @exception NullPointerException если специфика - {@code null}.
+         * 
+         * @see Locale#getDefault()
+         * @deprecated JDK7.
+         */
+        @Deprecated
+        public Текст словарь( Package пакет, String префикс, Locale специфика )
+        {
+            return словарь( пакет, префикс, специфика, специфика );
         }
 
         static private String префикс( Class<?> класс )
@@ -127,7 +227,8 @@ public class Текст
                     name = ((Preference)a).alias();
             return name;
         }
-
+        
     }
     
+    //</editor-fold>
 }
