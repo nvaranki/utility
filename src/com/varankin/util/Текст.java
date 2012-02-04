@@ -74,6 +74,16 @@ public class Текст
         }
     };
 
+    @Deprecated
+    static private Map<Locale.Category, Locale> singletonIndex( Locale специфика )
+    {
+        Map<Locale.Category,Locale> индекс = new HashMap<>();
+        for( Locale.Category category : Locale.Category.values() )
+            индекс.put( category, специфика );
+        индекс.put( null, специфика );
+        return индекс;
+    }
+
     //<editor-fold defaultstate="collapsed" desc="классы">
     
     /**
@@ -88,9 +98,8 @@ public class Текст
          * Создает новый источник локализованных текстов для класса.
          * Источник требует полный индекс текста.
          *
-         * @param класс            референт.
-         * @param спецификаЯзыка   спецификация языка текстов.
-         * @param спецификаФормата спецификация форматов чисел, дат, валют и т.п.
+         * @param класс     референт.
+         * @param специфика спецификации языка текстов, форматов чисел, дат и т.п.
          * @return источник текстов.
          *
          * @exception NullPointerException если спецификаЯзыка - {@code null}.
@@ -98,12 +107,13 @@ public class Текст
          * @see Locale#getDefault()
          * @see Locale#getDefault(java.util.Locale.Category)
          */
-        public Текст словарь( Class класс, Locale спецификаЯзыка, Locale спецификаФормата )
+        public Текст словарь( Class класс, Map<Locale.Category,Locale> специфика )
         {
             ResourceBundle bundle = каталог.get( класс );
             if( bundle == null )
-                каталог.put( класс, bundle = getBundle( класс.getName(), спецификаЯзыка ) );
-            return new Текст( спецификаФормата, bundle, null );
+                каталог.put( класс, bundle = getBundle( класс.getName(), 
+                        специфика.get( Locale.Category.DISPLAY ) ) );
+            return new Текст( специфика.get( Locale.Category.FORMAT ), bundle, null );
         }
         
         /**
@@ -122,7 +132,7 @@ public class Текст
         @Deprecated
         public Текст словарь( Class класс, Locale специфика )
         {
-            return словарь( класс, специфика, специфика );
+            return словарь( класс, singletonIndex( специфика ) );
         }
     }
     
@@ -139,9 +149,8 @@ public class Текст
          * Источник требует частичный индекс текста. В качестве префикса
          * источник использует {@linkplain Class#getSimpleName() краткое название класса}.
          *
-         * @param класс            референт.
-         * @param спецификаЯзыка   спецификация языка текстов.
-         * @param спецификаФормата спецификация форматов чисел, дат, валют и т.п.
+         * @param класс     референт.
+         * @param специфика спецификации языка текстов, форматов чисел, дат и т.п.
          * @return источник текстов.
          *
          * @exception NullPointerException если спецификаЯзыка - {@code null}.
@@ -149,9 +158,9 @@ public class Текст
          * @see Locale#getDefault()
          * @see Locale#getDefault(java.util.Locale.Category)
          */
-        public Текст словарь( Class класс, Locale спецификаЯзыка, Locale спецификаФормата )
+        public Текст словарь( Class класс, Map<Locale.Category,Locale> специфика )
         {
-            return словарь( класс.getPackage(), префикс( класс ), спецификаЯзыка, спецификаФормата );
+            return словарь( класс.getPackage(), префикс( класс ), специфика );
         }
         
         /**
@@ -171,7 +180,7 @@ public class Текст
         @Deprecated
         public Текст словарь( Class класс, Locale специфика )
         {
-            return словарь( класс, специфика, специфика );
+            return словарь( класс, singletonIndex( специфика ) );
         }
         
         /**
@@ -179,10 +188,9 @@ public class Текст
          * Источник требует частичный индекс текста. В качестве префикса
          * источник использует заданное значение.
          *
-         * @param пакет            референт.
-         * @param префикс          префикс ключей текстов.
-         * @param спецификаЯзыка   спецификация языка текстов.
-         * @param спецификаФормата спецификация форматов чисел, дат и т.п.
+         * @param пакет     референт.
+         * @param префикс   префикс ключей текстов.
+         * @param специфика спецификации языка текстов, форматов чисел, дат и т.п.
          * @return источник текстов.
          *
          * @exception NullPointerException если спецификаЯзыка - {@code null}.
@@ -190,12 +198,13 @@ public class Текст
          * @see Locale#getDefault()
          * @see Locale#getDefault(java.util.Locale.Category)
          */
-        public Текст словарь( Package пакет, String префикс, Locale спецификаЯзыка, Locale спецификаФормата )
+        public Текст словарь( Package пакет, String префикс, Map<Locale.Category,Locale> специфика )
         {
             ResourceBundle bundle = каталог.get( пакет );
             if( bundle == null )
-                каталог.put( пакет, bundle = getBundle( пакет.getName() + '.' + FILE_BUNDLE, спецификаЯзыка ) );
-            return new Текст( спецификаФормата, bundle, префикс );
+                каталог.put( пакет, bundle = getBundle( пакет.getName() + '.' + FILE_BUNDLE, 
+                        специфика.get( Locale.Category.DISPLAY ) ) );
+            return new Текст( специфика.get( Locale.Category.FORMAT ), bundle, префикс );
         }
         
         /**
@@ -203,8 +212,8 @@ public class Текст
          * Источник требует частичный индекс текста. В качестве префикса
          * источник использует заданное значение.
          * 
-         * @param пакет            референт.
-         * @param префикс          префикс ключей текстов.
+         * @param пакет     референт.
+         * @param префикс   префикс ключей текстов.
          * @param специфика спецификация языка текстов и форматов чисел, дат, валют и т.п..
          * @return источник текстов.
          *
@@ -216,7 +225,7 @@ public class Текст
         @Deprecated
         public Текст словарь( Package пакет, String префикс, Locale специфика )
         {
-            return словарь( пакет, префикс, специфика, специфика );
+            return словарь( пакет, префикс, singletonIndex( специфика ) );
         }
 
         static private String префикс( Class<?> класс )
