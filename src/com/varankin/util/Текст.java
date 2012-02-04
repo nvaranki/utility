@@ -104,6 +104,7 @@ public class Текст
          *
          * @exception NullPointerException если спецификаЯзыка - {@code null}.
          * 
+         * @since JDK7
          * @see Locale#getDefault()
          * @see Locale#getDefault(java.util.Locale.Category)
          */
@@ -155,6 +156,7 @@ public class Текст
          *
          * @exception NullPointerException если спецификаЯзыка - {@code null}.
          * 
+         * @since JDK7
          * @see Locale#getDefault()
          * @see Locale#getDefault(java.util.Locale.Category)
          */
@@ -195,6 +197,7 @@ public class Текст
          *
          * @exception NullPointerException если спецификаЯзыка - {@code null}.
          * 
+         * @since JDK7
          * @see Locale#getDefault()
          * @see Locale#getDefault(java.util.Locale.Category)
          */
