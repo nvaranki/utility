@@ -234,6 +234,7 @@ public class Текст
         static private String префикс( Class<?> класс )
         {
             String name = класс.getSimpleName();
+            if( класс.isMemberClass() ) name = класс.getEnclosingClass().getSimpleName() + '.' + name;
             for( Annotation a : класс.getAnnotations() )
                 if( a instanceof Preference )
                     name = ((Preference)a).alias();
