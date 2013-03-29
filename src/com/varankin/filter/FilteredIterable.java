@@ -14,13 +14,13 @@ import java.util.NoSuchElementException;
 public final class FilteredIterable<T> implements Iterable<T> 
 {
     private final java.lang.Iterable<T> iterable;
-    private final Фильтр<T>[] фильтры;
+    private final Фильтр<? super T>[] фильтры;
 
     /**
      * @param iterable исходный итерируемый объект.
      * @param фильтры  фильтры для отбора элементов.
      */
-    public FilteredIterable( Iterable<T> iterable, Фильтр<T>... фильтры ) 
+    public FilteredIterable( Iterable<T> iterable, Фильтр<? super T>... фильтры ) 
     {
         this.iterable = iterable;
         this.фильтры = фильтры;
@@ -37,7 +37,7 @@ public final class FilteredIterable<T> implements Iterable<T>
     
     private T filter( T кандидат )
     {
-        for( Фильтр<T> фильтр : фильтры )
+        for( Фильтр<? super T> фильтр : фильтры )
             if( !фильтр.пропускает( кандидат ) )
                 return null;
         return кандидат;
