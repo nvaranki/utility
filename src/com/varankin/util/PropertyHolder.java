@@ -1,17 +1,11 @@
 package com.varankin.util;
 
-import java.beans.PropertyChangeListener;
-
 /**
  *
  * @author Николай
  */
-public interface PropertyHolder 
+public interface PropertyHolder
 {
-
-    void addPropertyChangeListener(PropertyChangeListener listener);
-
-    void removePropertyChangeListener(PropertyChangeListener listener);
 
     <T> T getPropertyValue(String name);
 

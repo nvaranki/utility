@@ -3,11 +3,10 @@ package com.varankin.util;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.AbstractList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
- * Реализация {@linkplain List набора} с публичными {@linkplain PropertyHolder свойствами}.
+ * Реализация {@linkplain List набора} с публичными {@linkplain PropertyMonitor свойствами}.
  * Слушатели изменений этих свойств моментально уведомляются при добавлении или 
  * удалении элементов списка. 
  * 
@@ -15,7 +14,7 @@ import java.util.List;
  *
  * @author &copy; 2013 Николай Варанкин
  */
-public class MonitoredList<E> extends AbstractList<E> implements PropertyHolder
+public class MonitoredList<E> extends AbstractList<E> implements PropertyMonitor
 {
     /** Название свойства - признака добавления нового элемента в список. */
     public static final String PROPERTY_ADDED    = "added";
@@ -79,18 +78,6 @@ public class MonitoredList<E> extends AbstractList<E> implements PropertyHolder
     public final void removePropertyChangeListener( PropertyChangeListener listener )
     {
         PCS.removePropertyChangeListener( listener );
-    }
-
-    @Override
-    public <T> T getPropertyValue( String name )
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public <T> T setPropertyValue( String name, T newValue )
-    {
-        throw new UnsupportedOperationException();
     }
 
 }

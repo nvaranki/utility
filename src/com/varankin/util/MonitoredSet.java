@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * Реализация {@linkplain Set набора} с публичными {@linkplain PropertyHolder свойствами}.
+ * Реализация {@linkplain Set набора} с публичными {@linkplain PropertyMonitor свойствами}.
  * Слушатели изменений этих свойств моментально уведомляются при добавлении или 
  * удалении элементов набора. 
  * 
@@ -15,7 +15,7 @@ import java.util.Set;
  *
  * @author &copy; 2013 Николай Варанкин
  */
-public class MonitoredSet<E> extends AbstractSet<E> implements PropertyHolder
+public class MonitoredSet<E> extends AbstractSet<E> implements PropertyMonitor
 {
     /** Название свойства - признака добавления нового элемента в набор. */
     public static final String PROPERTY_ADDED    = "added";
@@ -66,18 +66,6 @@ public class MonitoredSet<E> extends AbstractSet<E> implements PropertyHolder
         PCS.removePropertyChangeListener( listener );
     }
 
-    @Override
-    public <T> T getPropertyValue( String name )
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public <T> T setPropertyValue( String name, T newValue )
-    {
-        throw new UnsupportedOperationException();
-    }
-    
     private class IteratorImpl implements Iterator<E>
     {
         private final Iterator<E> ITERATOR;
