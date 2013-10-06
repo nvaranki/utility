@@ -1,14 +1,21 @@
 package com.varankin.util;
 
 /**
- *
- * @author Николай
+ * Владелец одного или нескольких именованных свойств.
+ * 
+ * @param <T> тип значения свойства или всех свойств, если он одинаков.
+ * 
+ * @author &copy; 2013 Николай Варанкин
  */
-public interface PropertyHolder
+public interface PropertyHolder<T>
 {
 
-    <T> T getPropertyValue(String name);
-
-    <T> T setPropertyValue(String name, T newValue);
+    /**
+     * Возвращает значение именованного свойства.
+     *
+     * @param name название свойства.
+     * @return текущее значение свойства.
+     */
+    T getPropertyValue( String name );
     
 }
