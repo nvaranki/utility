@@ -9,7 +9,7 @@ import java.util.Set;
  *
  * @author Николай
  */
-public class SimplePropertyMonitor implements PropertyMonitor
+public class SimplePropertyMonitor implements FiringPropertyMonitor
 {
     private final Set<PropertyChangeListener> LISTENERS = new HashSet<>();
 
@@ -25,6 +25,7 @@ public class SimplePropertyMonitor implements PropertyMonitor
         LISTENERS.remove( listener );
     }
     
+    @Override
     public final void firePropertyChange( PropertyChangeEvent event )
     {
         for( PropertyChangeListener listener : LISTENERS )
