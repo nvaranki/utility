@@ -1,4 +1,4 @@
-package com.varankin.util;
+package com.varankin.property;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

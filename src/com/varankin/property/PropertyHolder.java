@@ -1,4 +1,4 @@
-package com.varankin.util;
+package com.varankin.property;
 
 /**
  * Владелец одного или нескольких именованных свойств.
