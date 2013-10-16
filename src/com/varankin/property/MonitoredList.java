@@ -1,8 +1,9 @@
 package com.varankin.property;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.AbstractList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public class MonitoredList<E> extends AbstractList<E> implements PropertyMonitor
     /** Название свойства - признака удаления существующего элемента из списка. */
     public static final String PROPERTY_REMOVED  = "removed";
 
-    private final PropertyChangeSupport PCS;
+    private final FiringPropertyMonitor PCS;
     private final List<E> СПИСОК;
 
     /**
@@ -29,7 +30,7 @@ public class MonitoredList<E> extends AbstractList<E> implements PropertyMonitor
      */
     public MonitoredList( List<E> список )
     {
-        PCS = new PropertyChangeSupport( this );
+        PCS = new SimplePropertyMonitor();
         СПИСОК = список;
     }
 
@@ -37,14 +38,16 @@ public class MonitoredList<E> extends AbstractList<E> implements PropertyMonitor
     public final void add( int index, E e )
     {
         СПИСОК.add( index, e );
-        PCS.firePropertyChange( PROPERTY_ADDED, null, e );
+        PCS.firePropertyChange( new PropertyChangeEvent( this, 
+                            PROPERTY_ADDED, null, e ) );
     }
 
     @Override
     public final E set( int index, E e )
     {
         E old = СПИСОК.set( index, e );
-        PCS.firePropertyChange( PROPERTY_ADDED, old, e );
+        PCS.firePropertyChange( new PropertyChangeEvent( this, 
+                            PROPERTY_ADDED, old, e ) );
         return old;
     }
 
@@ -58,7 +61,8 @@ public class MonitoredList<E> extends AbstractList<E> implements PropertyMonitor
     public final E remove( int index )
     {
         E old = СПИСОК.remove( index );
-        PCS.firePropertyChange( PROPERTY_REMOVED, old, null );
+        PCS.firePropertyChange( new PropertyChangeEvent( this, 
+                            PROPERTY_REMOVED, old, null ) );
         return old;
     }
 
@@ -69,15 +73,9 @@ public class MonitoredList<E> extends AbstractList<E> implements PropertyMonitor
     }
 
     @Override
-    public final void addPropertyChangeListener( PropertyChangeListener listener )
+    public Collection<PropertyChangeListener> наблюдатели()
     {
-        PCS.addPropertyChangeListener( listener );
-    }
-
-    @Override
-    public final void removePropertyChangeListener( PropertyChangeListener listener )
-    {
-        PCS.removePropertyChangeListener( listener );
+        return PCS.наблюдатели();
     }
 
 }

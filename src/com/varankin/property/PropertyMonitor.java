@@ -1,6 +1,7 @@
 package com.varankin.property;
 
 import java.beans.PropertyChangeListener;
+import java.util.Collection;
 
 /**
  *
@@ -8,9 +9,8 @@ import java.beans.PropertyChangeListener;
  */
 public interface PropertyMonitor
 {
-
-    void addPropertyChangeListener( PropertyChangeListener listener );
-
-    void removePropertyChangeListener( PropertyChangeListener listener );
-    
+    /**
+     * @return изменяемая коллекция наблюдателей за данным монитором.
+     */
+    Collection<PropertyChangeListener> наблюдатели();
 }

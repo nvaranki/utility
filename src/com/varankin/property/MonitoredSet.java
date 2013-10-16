@@ -1,8 +1,9 @@
 package com.varankin.property;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.AbstractSet;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -22,7 +23,7 @@ public class MonitoredSet<E> extends AbstractSet<E> implements PropertyMonitor
     /** Название свойства - признака удаления существующего элемента из набора. */
     public static final String PROPERTY_REMOVED  = "removed";
 
-    private final PropertyChangeSupport PCS;
+    private final FiringPropertyMonitor PCS;
     private final Set<E> НАБОР;
 
     /**
@@ -30,7 +31,7 @@ public class MonitoredSet<E> extends AbstractSet<E> implements PropertyMonitor
      */
     public MonitoredSet( Set<E> набор )
     {
-        PCS = new PropertyChangeSupport( this );
+        PCS = new SimplePropertyMonitor();
         НАБОР = набор;
     }
 
@@ -44,7 +45,8 @@ public class MonitoredSet<E> extends AbstractSet<E> implements PropertyMonitor
     public final boolean add( E e )
     {
         boolean added = НАБОР.add( e );
-        if( added ) PCS.firePropertyChange( PROPERTY_ADDED, null, e );
+        if( added ) PCS.firePropertyChange( new PropertyChangeEvent( this, 
+                            PROPERTY_ADDED, null, e ) );
         return added;
     }
 
@@ -55,15 +57,9 @@ public class MonitoredSet<E> extends AbstractSet<E> implements PropertyMonitor
     }
 
     @Override
-    public final void addPropertyChangeListener( PropertyChangeListener listener )
+    public Collection<PropertyChangeListener> наблюдатели()
     {
-        PCS.addPropertyChangeListener( listener );
-    }
-
-    @Override
-    public final void removePropertyChangeListener( PropertyChangeListener listener )
-    {
-        PCS.removePropertyChangeListener( listener );
+        return PCS.наблюдатели();
     }
 
     private class IteratorImpl implements Iterator<E>
@@ -92,7 +88,8 @@ public class MonitoredSet<E> extends AbstractSet<E> implements PropertyMonitor
         public void remove()
         {
             ITERATOR.remove();
-            PCS.firePropertyChange( PROPERTY_REMOVED, last, null );
+            PCS.firePropertyChange( new PropertyChangeEvent( MonitoredSet.this, 
+                            PROPERTY_REMOVED, last, null ) );
             last = null;
         }
         
