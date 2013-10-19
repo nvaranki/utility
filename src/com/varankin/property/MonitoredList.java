@@ -15,13 +15,8 @@ import java.util.List;
  *
  * @author &copy; 2013 Николай Варанкин
  */
-public class MonitoredList<E> extends AbstractList<E> implements PropertyMonitor
+public class MonitoredList<E> extends AbstractList<E> implements MonitoredCollection<E>
 {
-    /** Название свойства - признака добавления нового элемента в список. */
-    public static final String PROPERTY_ADDED    = "added";
-    /** Название свойства - признака удаления существующего элемента из списка. */
-    public static final String PROPERTY_REMOVED  = "removed";
-
     private final FiringPropertyMonitor PCS;
     private final List<E> СПИСОК;
 

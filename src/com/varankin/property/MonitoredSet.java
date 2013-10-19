@@ -16,13 +16,8 @@ import java.util.Set;
  *
  * @author &copy; 2013 Николай Варанкин
  */
-public class MonitoredSet<E> extends AbstractSet<E> implements PropertyMonitor
+public class MonitoredSet<E> extends AbstractSet<E> implements MonitoredCollection<E>
 {
-    /** Название свойства - признака добавления нового элемента в набор. */
-    public static final String PROPERTY_ADDED    = "added";
-    /** Название свойства - признака удаления существующего элемента из набора. */
-    public static final String PROPERTY_REMOVED  = "removed";
-
     private final FiringPropertyMonitor PCS;
     private final Set<E> НАБОР;
 
