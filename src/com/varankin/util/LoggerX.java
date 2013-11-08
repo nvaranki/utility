@@ -70,7 +70,10 @@ public class LoggerX
         }
         else if( resourceBundle.containsKey( msg ) )
         {
-            result = resourceBundle.getString( msg );
+            if( params.length == 0 )
+                result = resourceBundle.getString( msg );
+            else
+                result = MessageFormat.format( resourceBundle.getString( msg ), params );
         }
         else
         {
