@@ -3,7 +3,9 @@ package com.varankin.filter;
 /**
  * Фильтр объектов.
  * 
- * @author &copy; 2013 Николай Варанкин
+ * @author &copy; 2014 Николай Варанкин
+ * 
+ * @param <T> тип фильтруемого объекта.
  */
 public interface Фильтр<T> 
 {
@@ -17,7 +19,7 @@ public interface Фильтр<T>
     {
 
         @Override
-        public boolean пропускает( Object _ )
+        public boolean пропускает( Object __ )
         {
             return true;
         }
@@ -27,7 +29,7 @@ public interface Фильтр<T>
     {
 
         @Override
-        public boolean пропускает( Object _ )
+        public boolean пропускает( Object __ )
         {
             return false;
         }
