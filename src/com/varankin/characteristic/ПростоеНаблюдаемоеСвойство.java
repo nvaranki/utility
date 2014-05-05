@@ -22,7 +22,7 @@ public class ПростоеНаблюдаемоеСвойство<T>
     public ПростоеНаблюдаемоеСвойство( String название ) 
     {
         super( название );
-        НАБЛЮДАТЕЛИ = new HashSet<>();
+        НАБЛЮДАТЕЛИ = new HashSet<>(); //TODO dynamic re-assign Collections.EMPTY_SET
     }
 
     @Override
@@ -38,7 +38,7 @@ public class ПростоеНаблюдаемоеСвойство<T>
     @Override
     public final Set<Наблюдатель> наблюдатели() 
     {
-        return НАБЛЮДАТЕЛИ;
+        return НАБЛЮДАТЕЛИ; //TODO dynamic re-assign Collections.EMPTY_SET
     }
 
 }
