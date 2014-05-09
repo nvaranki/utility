@@ -1,7 +1,7 @@
 package com.varankin.characteristic;
 
 /**
- * Реализация простого именованного свойства.
+ * Реализация простого изменяемого свойства.
  * 
  * @param <T> тип значения свойства.
  * 
@@ -9,22 +9,18 @@ package com.varankin.characteristic;
  */
 public class ПростоеСвойство<T> implements ИзменяемоеСвойство<T>
 {
-    private final String НАЗВАНИЕ;
-    
     private T t;
 
-    /**
-     * @param название название свойства.
-     */
-    public ПростоеСвойство( String название ) 
+    public ПростоеСвойство() 
     {
-        НАЗВАНИЕ = название;
     }
-
-    @Override
-    public final String название() 
+        
+    /**
+     * @param t начальное значение свойства.
+     */
+    public ПростоеСвойство( T t ) 
     {
-        return НАЗВАНИЕ;
+        this.t = t;
     }
 
     @Override

@@ -1,13 +1,13 @@
 package com.varankin.characteristic;
 
 /**
- * Именованное свойство.
+ * Измеряемое свойство.
  * 
  * @param <T> тип значения свойства.
  * 
  * @author &copy; 2014 Николай Варанкин
  */
-public interface Свойство<T> extends Именованный
+public interface Свойство<T>
 {
     
     /**
