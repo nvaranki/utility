@@ -4,22 +4,22 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Реализация простого наблюдаемого свойства.
+ * Реализация наблюдаемого изменяемого свойства.
  * 
  * @param <T> тип значения свойства.
  * 
  * @author &copy; 2014 Николай Варанкин
  */
-public class ПростоеНаблюдаемоеСвойство<T> 
+public class НаблюдаемоеИзменяемоеСвойствоImpl<T> 
         extends ПростоеСвойство<T>
-        implements НаблюдаемоеСвойство<T>
+        implements НаблюдаемоеИзменяемоеСвойство<T>
 {
     private final Set<Наблюдатель> НАБЛЮДАТЕЛИ;
     
     /**
      * @param t начальное значение свойства.
      */
-    public ПростоеНаблюдаемоеСвойство( T t ) 
+    public НаблюдаемоеИзменяемоеСвойствоImpl( T t ) 
     {
         super( t );
         НАБЛЮДАТЕЛИ = new HashSet<>(); //TODO dynamic re-assign Collections.EMPTY_SET
