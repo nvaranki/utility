@@ -3,20 +3,20 @@ package com.varankin.graph;
 import java.util.Collection;
 
 /**
- * Узел ненаправленного графа.
+ * Узел неориентированного графа.
  * 
  * @param <T> тип узлов графа.
  *
  * @author &copy; 2014 Николай Варанкин
  */
-public class ПростойУзел<T extends Узел> implements Узел<T>
+public class ПростойУзелГрафа<T extends УзелГрафа<T>> implements УзелГрафа<T>
 {
     private final Collection<T> УЗЛЫ;
 
     /**
      * @param коллекция коллекция для хранения связанных узлов.
      */
-    public ПростойУзел( Collection<T> коллекция )
+    public ПростойУзелГрафа( Collection<T> коллекция )
     {
         УЗЛЫ = коллекция;
     }

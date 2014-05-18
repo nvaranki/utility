@@ -6,10 +6,11 @@ package com.varankin.graph;
  *
  * @param <T> тип компонентных узлов графа.
  * 
+ * @see УзелОрграфа
+ * 
  * @author &copy; 2014 Николай Варанкин
  */
-public interface АгрегатныйУзел<T extends Узел> 
-        extends Узел<АгрегатныйУзел.КомпонентныйУзел<T>>
+public interface АгрегатныйУзел<T extends АгрегатныйУзел.Компонент<T>>
 {
     
     /**
@@ -17,7 +18,7 @@ public interface АгрегатныйУзел<T extends Узел>
      * 
      * @param <T> тип компонентных узлов графа.
      */
-    public interface КомпонентныйУзел<T extends Узел> extends Узел<T>
+    public interface Компонент<T extends Компонент<T>> extends УзелГрафа<T>
     {
         /**
          * @return агрегатный узел, в составе которого находится данный компонентный узел.

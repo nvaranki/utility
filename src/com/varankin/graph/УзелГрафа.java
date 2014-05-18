@@ -3,13 +3,13 @@ package com.varankin.graph;
 import java.util.Collection;
 
 /**
- * Узел ненаправленного графа.
+ * Узел неориентированного графа.
  *
  * @param <T> тип узлов графа.
  * 
  * @author &copy; 2014 Николай Варанкин
  */
-public interface Узел<T extends Узел>
+public interface УзелГрафа<T extends УзелГрафа<T>>
 {
     /**
      * @return узлы, связанные с данным узлом.
