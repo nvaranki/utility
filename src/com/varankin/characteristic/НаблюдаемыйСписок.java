@@ -26,7 +26,7 @@ public class НаблюдаемыйСписок<E>
     public НаблюдаемыйСписок( List<E> list )
     {
         СПИСОК = new MonitoredList<>( list );
-        СПИСОК.наблюдатели().add( (PropertyChangeEvent e) ->
+        СПИСОК.listeners().add( (PropertyChangeEvent e) ->
             { сообщить( (E)e.getOldValue(), (E)e.getNewValue() ); } );
     }
 

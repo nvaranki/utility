@@ -26,7 +26,7 @@ public class НаблюдаемыйНабор<E>
     public НаблюдаемыйНабор( Set<E> list )
     {
         НАБОР = new MonitoredSet<>( list );
-        НАБОР.наблюдатели().add( (PropertyChangeEvent e) ->
+        НАБОР.listeners().add( (PropertyChangeEvent e) ->
             { сообщить( (E)e.getOldValue(), (E)e.getNewValue() ); } );
     }
 

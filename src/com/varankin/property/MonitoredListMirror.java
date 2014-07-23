@@ -22,7 +22,7 @@ public class MonitoredListMirror<E> extends MonitoredList<E>
         super( new LinkedList<E>() );
         SOURCE = source;
         агент.copy( SOURCE, (List)this );
-        source.наблюдатели().add( new PropertyChangeListenerImpl( агент ) );
+        source.listeners().add( new PropertyChangeListenerImpl( агент ) );
     }
 
     public interface Copier<E>

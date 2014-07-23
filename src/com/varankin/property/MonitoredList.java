@@ -68,9 +68,9 @@ public class MonitoredList<E> extends AbstractList<E> implements MonitoredCollec
     }
 
     @Override
-    public Collection<PropertyChangeListener> наблюдатели()
+    public Collection<PropertyChangeListener> listeners()
     {
-        return PCS.наблюдатели();
+        return PCS.listeners();
     }
 
 }

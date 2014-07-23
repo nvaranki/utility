@@ -15,7 +15,7 @@ public class SimplePropertyMonitor implements FiringPropertyMonitor
     private final Set<PropertyChangeListener> LISTENERS = new HashSet<>();
 
     @Override
-    public final Collection<PropertyChangeListener> наблюдатели()
+    public final Collection<PropertyChangeListener> listeners()
     {
         return LISTENERS;
     }

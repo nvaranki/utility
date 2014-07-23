@@ -12,5 +12,5 @@ public interface PropertyMonitor
     /**
      * @return изменяемая коллекция наблюдателей за данным монитором.
      */
-    Collection<PropertyChangeListener> наблюдатели();
+    Collection<PropertyChangeListener> listeners();
 }

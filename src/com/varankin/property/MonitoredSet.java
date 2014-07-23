@@ -52,9 +52,9 @@ public class MonitoredSet<E> extends AbstractSet<E> implements MonitoredCollecti
     }
 
     @Override
-    public Collection<PropertyChangeListener> наблюдатели()
+    public Collection<PropertyChangeListener> listeners()
     {
-        return PCS.наблюдатели();
+        return PCS.listeners();
     }
 
     private class IteratorImpl implements Iterator<E>
