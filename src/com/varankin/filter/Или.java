@@ -7,7 +7,9 @@ package com.varankin.filter;
  * При отсутствии фильтров, или если ни один из фильтров не вернул {@code true}, 
  * результат операции будет {@code false}.
  * 
- * @author &copy; 2013 Николай Варанкин
+ * @param <T> тип фильтруемого объекта.
+ * 
+ * @author &copy; 2015 Николай Варанкин
  */
 public final class Или<T> implements Фильтр<T> 
 {
@@ -30,5 +32,9 @@ public final class Или<T> implements Фильтр<T>
                 break;
         return результат;
     }
-    
+
+    public static <T> Или или( Фильтр<T>... фильтры )
+    {
+        return new Или( фильтры );
+    }
 }

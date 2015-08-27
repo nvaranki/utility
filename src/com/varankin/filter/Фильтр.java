@@ -3,7 +3,7 @@ package com.varankin.filter;
 /**
  * Фильтр объектов.
  * 
- * @author &copy; 2014 Николай Варанкин
+ * @author &copy; 2015 Николай Варанкин
  * 
  * @param <T> тип фильтруемого объекта.
  */
