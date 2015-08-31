@@ -8,40 +8,50 @@ import java.util.Set;
  * 
  * @param <T> тип значения свойства.
  * 
- * @author &copy; 2014 Николай Варанкин
+ * @author &copy; 2015 Николай Варанкин
  */
 public class НаблюдаемоеИзменяемоеСвойствоImpl<T> 
-        extends ПростоеСвойство<T>
         implements НаблюдаемоеИзменяемоеСвойство<T>
 {
-    private final Set<Наблюдатель> НАБЛЮДАТЕЛИ;
+    private final ИзменяемоеСвойство<T> СВОЙСТВО;
+    private final Set<Наблюдатель<T>> НАБЛЮДАТЕЛИ;
     
     /**
      * @param t начальное значение свойства.
      */
     public НаблюдаемоеИзменяемоеСвойствоImpl( T t ) 
     {
-        super( t );
-        НАБЛЮДАТЕЛИ = new HashSet<>(); //TODO dynamic re-assign Collections.EMPTY_SET
+        this( new ПростоеСвойство( t ) );
     }
 
     /**
-     * Устанавливает значение свойства и уведомляет наблюдателей об изменении.
-     *
-     * @param t значение свойства.
+     * @param свойство свойство для наблюдения.
      */
+    public НаблюдаемоеИзменяемоеСвойствоImpl( ИзменяемоеСвойство<T> свойство ) 
+    {
+        СВОЙСТВО = свойство;
+        НАБЛЮДАТЕЛИ = new HashSet<>(); //TODO dynamic re-assign Collections.EMPTY_SET
+    }
+
+    @Override
+    public T значение() 
+    {
+        //TODO notify when changed
+        return СВОЙСТВО.значение();
+    }
+
     @Override
     public final void значение( T t ) 
     {
-        T прежнее = значение();
-        super.значение( t );
+        T прежнее = СВОЙСТВО.значение();
+        СВОЙСТВО.значение( t );
         Изменение<T> изменение = new Изменение<>( прежнее, t );
         for( Наблюдатель наблюдатель : НАБЛЮДАТЕЛИ )
             наблюдатель.отклик( изменение );
     }
 
     @Override
-    public final Set<Наблюдатель> наблюдатели() 
+    public final Set<Наблюдатель<T>> наблюдатели() 
     {
         return НАБЛЮДАТЕЛИ; //TODO dynamic re-assign Collections.EMPTY_SET
     }
