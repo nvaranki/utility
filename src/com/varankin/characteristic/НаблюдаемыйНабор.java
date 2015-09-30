@@ -1,8 +1,6 @@
 package com.varankin.characteristic;
 
-import com.varankin.property.MonitoredSet;
-import java.beans.PropertyChangeEvent;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Наблюдаемый поэлементно набор.
@@ -14,26 +12,45 @@ import java.util.Set;
  * 
  * @param <E> тип элемента набора.
  * 
- * @author &copy; 2014 Николай Варанкин
+ * @author &copy; 2015 Николай Варанкин
  */
 public class НаблюдаемыйНабор<E> 
-        extends НаблюдаемыйImpl<E> 
-        implements Свойство<Set<E>>
+        extends AbstractSet<E>
+        implements Наблюдаемый<E>
 {
-    @Deprecated //TODO unlink from MonitoredSet
-    private final MonitoredSet<E> НАБОР;
+    private final Set<E> НАБОР;
+    private final НаблюдаемыйАгент<E> АГЕНТ;
 
-    public НаблюдаемыйНабор( Set<E> list )
+    public НаблюдаемыйНабор( Set<E> набор )
     {
-        НАБОР = new MonitoredSet<>( list );
-        НАБОР.listeners().add( (PropertyChangeEvent e) ->
-            { сообщить( (E)e.getOldValue(), (E)e.getNewValue() ); } );
+        НАБОР = набор;
+        АГЕНТ = new НаблюдаемыйАгент<>();
     }
 
     @Override
-    public final Set<E> значение()
+    public final Iterator<E> iterator()
     {
-        return НАБОР;
+        return new НаблюдаемыйIterator<>( НАБОР.iterator(), АГЕНТ );
     }
-    
+
+    @Override
+    public final boolean add( E e )
+    {
+        boolean added = НАБОР.add( e );
+        if( added ) АГЕНТ.сообщить( null, e );
+        return added;
+    }
+
+    @Override
+    public final int size()
+    {
+        return НАБОР.size();
+    }
+
+    @Override
+    public final Collection<Наблюдатель<E>> наблюдатели()
+    {
+        return АГЕНТ.наблюдатели();
+    }
+
 }

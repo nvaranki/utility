@@ -1,9 +1,6 @@
 package com.varankin.characteristic;
 
-import com.varankin.property.MonitoredCollection;
-import com.varankin.property.SimpleMonitoredCollection;
-import java.beans.PropertyChangeEvent;
-import java.util.Collection;
+import java.util.*;
 
 /**
  * Наблюдаемая поэлементно коллекция.
@@ -18,23 +15,42 @@ import java.util.Collection;
  * @author &copy; 2015 Николай Варанкин
  */
 public class НаблюдаемаяКоллекция<E> 
-        extends НаблюдаемыйImpl<E> 
-        implements Свойство<Collection<E>>
+        extends AbstractCollection<E>
+        implements Наблюдаемый<E> 
 {
-    @Deprecated //TODO unlink from MonitoredCollection
-    private final MonitoredCollection<E> КОЛЛЕКЦИЯ;
+    private final Collection<E> КОЛЛЕКЦИЯ;
+    private final НаблюдаемыйАгент<E> АГЕНТ;
 
-    public НаблюдаемаяКоллекция( Collection<E> collection )
+    public НаблюдаемаяКоллекция( Collection<E> коллекция )
     {
-        КОЛЛЕКЦИЯ = new SimpleMonitoredCollection<>( collection );
-        КОЛЛЕКЦИЯ.listeners().add( (PropertyChangeEvent e) ->
-            { сообщить( (E)e.getOldValue(), (E)e.getNewValue() ); } );
+        КОЛЛЕКЦИЯ = коллекция;
+        АГЕНТ = new НаблюдаемыйАгент<>();
     }
 
     @Override
-    public final Collection<E> значение()
+    public final Iterator<E> iterator()
     {
-        return КОЛЛЕКЦИЯ;
+        return new НаблюдаемыйIterator<>( КОЛЛЕКЦИЯ.iterator(), АГЕНТ );
     }
-    
+
+    @Override
+    public final boolean add( E e )
+    {
+        boolean added = КОЛЛЕКЦИЯ.add( e );
+        if( added ) АГЕНТ.сообщить( null, e );
+        return added;
+    }
+
+    @Override
+    public final int size()
+    {
+        return КОЛЛЕКЦИЯ.size();
+    }
+
+    @Override
+    public final Collection<Наблюдатель<E>> наблюдатели()
+    {
+        return АГЕНТ.наблюдатели();
+    }
+
 }
