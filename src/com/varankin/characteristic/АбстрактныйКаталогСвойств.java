@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Абстрактный каталог свойств объекта.
  * 
- * @author &copy; 2015 Николай Варанкин
+ * @author &copy; 2016 Николай Варанкин
  */
 public abstract class АбстрактныйКаталогСвойств implements Свойственный.Каталог
 {
@@ -29,6 +29,31 @@ public abstract class АбстрактныйКаталогСвойств impleme
     }
     
     /**
+     * Загружает свойство в каталог.
+     * 
+     * @param field     носитель свойства.
+     * @param контейнер контейнер свойств.
+     */
+    protected void load( Field field, Свойственный контейнер )
+    {
+        Свойственное аннотация = field.getAnnotation( Свойственное.class );
+        if( аннотация != null )
+        {
+            String ключ = аннотация.value();
+            try
+            {
+                Свойство свойство = getField( field, контейнер );
+                КЛАССЫ.put( свойство, getGenericClass( field ) );
+                КЛЮЧИ.put( свойство, ключ );
+            }
+            catch( Exception e )
+            {
+                throw new RuntimeException( "Inappropriate property " + ключ, e );
+            }
+        }
+    }
+    
+    /**
      * Загружает свойства в каталог.
      * 
      * @param контейнер контейнер свойств.
@@ -36,24 +61,10 @@ public abstract class АбстрактныйКаталогСвойств impleme
     protected void load( Свойственный контейнер )
     {
         for( Class cls = контейнер.getClass(); cls != null; cls = cls.getSuperclass() )
+        {
             for( Field field : cls.getDeclaredFields() )
-            {
-                Свойственное аннотация = field.getAnnotation( Свойственное.class );
-                if( аннотация != null )
-                {
-                    String ключ = аннотация.value();
-                    try
-                    {
-                        Свойство свойство = getField( field, контейнер );
-                        КЛАССЫ.put( свойство, getGenericClass( field ) );
-                        КЛЮЧИ.put( свойство, ключ );
-                    }
-                    catch( Exception e )
-                    {
-                        throw new RuntimeException( "Inappropriate property " + ключ, e );
-                    }
-                }
-            }
+                load( field, контейнер );
+        }
     }
     
     /**
