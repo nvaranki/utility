@@ -7,6 +7,7 @@ package com.varankin.filter;
  * 
  * @param <T> тип фильтруемого объекта.
  */
+@FunctionalInterface
 public interface Фильтр<T> 
 {
     /**
@@ -14,25 +15,5 @@ public interface Фильтр<T>
      * @return {@code true} если фильтр пропускает объект, иначе {@code false}.
      */
     boolean пропускает( T объект );
-    
-    Фильтр ВСЕ = new Фильтр() 
-    {
-
-        @Override
-        public boolean пропускает( Object __ )
-        {
-            return true;
-        }
-    };
-    
-    Фильтр НИЧЕГО = new Фильтр() 
-    {
-
-        @Override
-        public boolean пропускает( Object __ )
-        {
-            return false;
-        }
-    };
     
 }
