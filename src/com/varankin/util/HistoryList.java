@@ -15,7 +15,7 @@ import java.util.prefs.*;
  * пользователя операционной системы. Список восстанавливается
  * при создании элемента данного класса.
  *
- * @author &copy; 2013 Николай Варанкин
+ * @author &copy; 2016 Николай Варанкин
  * 
  * @param <T> класс элементов списка; обязан реализовать интерфейс {@link Serializable}
  *              для успешного сохранения/восстановления в хранилище.
@@ -132,11 +132,12 @@ public class HistoryList<T> implements Iterable<T>
             byte[] data = storage.getByteArray( Integer.toString( индекс ), null );
             try
             {
-                history.add( индекс, (T)Serializator.byteArrayToObject( data ) );
+                history.add( (T)Serializator.byteArrayToObject( data ) );
             }
-            catch( ClassCastException ex )
+            catch( Throwable ex )
             {
                 LOGGER.log( Level.CONFIG, null, ex );
+                saveHistoryItem( индекс, null ); // сломался, так сломался; уже не починишь
             }
         }
     }
@@ -156,9 +157,10 @@ public class HistoryList<T> implements Iterable<T>
                 LOGGER.log( Level.CONFIG, null, ex );
                 keys = Collections.emptyList();
             }
-        keys = new ArrayList<>( keys ); // keys.remove(...)!
-        for( int i = start; keys.remove( Integer.toString( i ) ); i++ )
-            restoreHistoryItem( i );
+        keys.stream()
+                .map( i -> Integer.valueOf( i ) )
+                .filter( i -> i >= start )
+                .sorted().forEach( i -> restoreHistoryItem( i ) );
     }
     
 }
