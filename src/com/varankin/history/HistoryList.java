@@ -1,4 +1,4 @@
-package com.varankin.util;
+package com.varankin.history;
 
 import java.io.Serializable;
 import java.util.*;
@@ -20,7 +20,7 @@ import java.util.prefs.*;
  * @param <T> класс элементов списка; обязан реализовать интерфейс {@link Serializable}
  *              для успешного сохранения/восстановления в хранилище.
  */
-public class HistoryList<T> implements Iterable<T>
+public class HistoryList<T extends Serializable> implements Iterable<T>
 {
     private static final Logger LOGGER = Logger.getLogger(HistoryList.class.getName());
     

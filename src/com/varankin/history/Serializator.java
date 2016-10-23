@@ -1,4 +1,4 @@
-package com.varankin.util;
+package com.varankin.history;
 
 import java.io.*;
 import java.util.logging.*;
@@ -6,7 +6,7 @@ import java.util.logging.*;
 /**
  *
  *
- * @author &copy; 2012 Николай Варанкин
+ * @author &copy; 2016 Николай Варанкин
  */
 public final class Serializator 
 {
