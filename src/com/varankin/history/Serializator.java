@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.logging.*;
 
 /**
- *
+ * S
  *
  * @author &copy; 2016 Николай Варанкин
  */
