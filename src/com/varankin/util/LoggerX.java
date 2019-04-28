@@ -9,7 +9,7 @@ import java.util.logging.Level;
 /**
  * Немного более удобный Logger на основе {@linkplain Logger стандартного}.
  * 
- * @author &copy; 2013 Николай Варанкин
+ * @author &copy; 2019 Николай Варанкин
  */
 public class LoggerX
 {
@@ -28,7 +28,9 @@ public class LoggerX
     
     public static LoggerX getLogger( Class<?> класс ) 
     {
-        return new LoggerX( класс.getName(), класс.getPackage().getName() + ".text" );
+        LoggerX lx = new LoggerX( класс.getName(), класс.getPackage().getName() + ".text" );
+        lx.STD_LOGGER.setResourceBundle( new ResourceBundleStack( класс.getPackage() ));
+        return lx;
     }
 
     public void log( String msg, Object... params )
