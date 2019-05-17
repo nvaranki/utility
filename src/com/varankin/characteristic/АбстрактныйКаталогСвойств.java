@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Абстрактный каталог свойств объекта.
  * 
- * @author &copy; 2016 Николай Варанкин
+ * @author &copy; 2019 Николай Варанкин
  */
 public abstract class АбстрактныйКаталогСвойств implements Свойственный.Каталог
 {
@@ -43,8 +43,11 @@ public abstract class АбстрактныйКаталогСвойств impleme
             try
             {
                 Свойство свойство = getField( field, контейнер );
-                КЛАССЫ.put( свойство, getGenericClass( field ) );
-                КЛЮЧИ.put( свойство, ключ );
+                if( свойство != null )
+                {
+                    КЛАССЫ.put( свойство, getGenericClass( field ) );
+                    КЛЮЧИ.put( свойство, ключ );
+                }
             }
             catch( Exception e )
             {
@@ -58,7 +61,7 @@ public abstract class АбстрактныйКаталогСвойств impleme
      * 
      * @param контейнер контейнер свойств.
      */
-    protected void load( Свойственный контейнер )
+    protected final void load( Свойственный контейнер )
     {
         for( Class cls = контейнер.getClass(); cls != null; cls = cls.getSuperclass() )
         {
